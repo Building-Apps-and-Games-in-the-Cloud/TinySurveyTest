@@ -28,11 +28,11 @@ class SurveyManager {
                         errors = errors + `Missing text in option in storeSurvey\n`;
                     }
                     if (!("count" in option)) {
-                        errors = errors + `Missing count in option in storeSurvey\n`;
+                        errors = errors + `Missing count in option ${option.text} in storeSurvey\n`;
                     }
                     else {
                         if (isNaN(option.count)) {
-                            errors = errors + `Count not a number in option ${option} in storeSurvey\n`;
+                            errors = errors + `Count not a number in option ${option.text} in storeSurvey\n`;
                         }
                     }
                 });

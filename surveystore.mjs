@@ -47,7 +47,7 @@ class Survey {
       option.incrementCount();
       return true;
     }
-    else{
+    else {
       return false;
     }
   }

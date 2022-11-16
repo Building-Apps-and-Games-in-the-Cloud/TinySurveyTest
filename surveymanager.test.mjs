@@ -85,40 +85,26 @@ function incrementTest() {
   let error = "";
   manager.storeSurvey(newSurveyValues);
   manager.incrementCount({ topic:"robspizza", option:"pepperoni"});
+  let surveyOptions = manager.getCounts("robspizza");
 
-  if (!manager.surveyExists("robspizza")) {
-    error = error + "survey not stored\n";
-  }
-  else {
-    let surveyOptions = manager.getCounts("robspizza");
-
-    if (surveyOptions.topic != "robspizza") {
-      error = error + "topic not stored\n";
+  newSurveyValues.options.forEach(option => {
+    let testOption = surveyOptions.options.find(item => item.text == option.text);
+    if (testOption == undefined) {
+      error = error + "option missing\n";
     }
-
-    if (surveyOptions.options.length != newSurveyValues.options.length) {
-      error = error + "options array wrong length\n";
-    }
-
-    newSurveyValues.options.forEach(option => {
-      let testOption = surveyOptions.options.find(item => item.text == option.text);
-      if (testOption == undefined) {
-        error = error + "option missing\n";
+    else {
+      if (testOption.text == "pepperoni") {
+        if (testOption.count != 1) {
+          error = error + "count increment failed";
+        }
       }
       else {
-        if (testOption.text == "pepperoni") {
-          if (testOption.count != 1) {
-            error = error + "count increment failed";
-          }
-        }
-        else {
-          if (testOption.count != 0) {
-            error = error + "incremented wrong count";
-          }
+        if (testOption.count != 0) {
+          error = error + "incremented wrong count";
         }
       }
-    });
-  }
+    }
+  });
   return error;
 }
 
@@ -194,6 +180,6 @@ let missingOptionCount = {
 };
 
 test('Missing option count', () => {
-  expect(() => surveyTest(missingOptionCount)).toThrow("Missing count in option in storeSurvey\n");
+  expect(() => surveyTest(missingOptionCount)).toThrow("Missing count in option margherita in storeSurvey\n");
 });
 
